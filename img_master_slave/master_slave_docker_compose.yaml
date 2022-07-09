@@ -1,9 +1,0 @@
-version: "3.3"
-services:
-  myredis:
-    image: 192.168.10.27:5050/myredis
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
-    ports:
-      - "6379:6379"

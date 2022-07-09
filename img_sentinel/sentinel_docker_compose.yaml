@@ -1,9 +1,0 @@
-version: "3.3"
-services:
-  agile-redis:
-    image: 192.168.10.27:5050/redis-sentinel
-    ports:
-      - '26379:26379'
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
