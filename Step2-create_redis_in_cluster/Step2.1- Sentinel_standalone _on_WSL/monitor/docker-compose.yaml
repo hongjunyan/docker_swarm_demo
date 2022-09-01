@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ${PWD}/monitor/config/prometheus_config/prometheus.yml:/etc/prometheus/prometheus.yaml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'  # prometheus used /etc/prometheus/prometheus.yml as default
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000

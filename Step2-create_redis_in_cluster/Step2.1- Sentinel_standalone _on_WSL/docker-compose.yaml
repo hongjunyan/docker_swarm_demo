@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  master1:
+    image: redis_redis
+  
+  slave1:
+    image: redis_redis
+    environment:
+      - MASTER_HOST=${REDIS_MASTER_IP}
+      - MASTER_PORT=6379
+  
+  slave2:
+    image: redis_redis
+    environment:
+      - MASTER_HOST=${REDIS_MASTER_IP}
+      - MASTER_PORT=6379
+
+  sentinel1: 
+    image: redis_sentinel  # build in local first
+    # ports:
+    #  - "26379:26379"
+    restart: always
+    environment:
+      - MASTER_HOST=${REDIS_MASTER_IP}
+  
+  sentinel2: 
+      image: redis_sentinel  # build in local first
+      #ports:
+      #  - "26380:26379"
+      restart: always
+      environment:
+        - MASTER_HOST=${REDIS_MASTER_IP}
+
+  sentinel3: 
+      image: redis_sentinel  # build in local first
+      #ports:
+      #  - "26381:26379"
+      restart: always
+      environment:
+        - MASTER_HOST=${REDIS_MASTER_IP}
+
+  backend:
+    image: backend
+    ports:
+      - "8080:8080"
+      - "8888:8888"
+    #volumes:
+    #  - ./img_app/app:/code/app
+
+    #command: jupyter notebook --ip=backend --allow-root
+    command: python app/try_redis_connection.py

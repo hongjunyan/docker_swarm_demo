@@ -122,7 +122,7 @@ ubuntu@worker1:$> docker swarm join --token SWMTKN-1-65oem57ricrz7aeccuazn8hvngi
 首先，multipass是使用hyper的技術來啟動VM，因此我們先打開Hyper-V Manager，你可以透過windows的搜尋功能來找到Hyper-V Manager。 找到後，我們就開啟它\
 <img src="imgs/hyperv_manager.PNG" alt="Alt text" title="multipass ls"> \
 開啟後可以看到先前使用multipass架設的三個VM，我們點選manager1，接著在下方點擊Networking的tab，然後可以看到Connection是使用Default Switch。這代表manager1的網路數據是由Default Switch幫忙送到HOST，也因此Default Swtich的IP，就是manager1的network getway。這個getway IP會下一段設定VM的static IP時用上。
-<img src="imgs/hyperv_manager_detail.PNG" alt="Alt text" title="multipass ls"> \
+<img src="imgs/hyperv_manager_detail.PNG" alt="Alt text" title="multipass ls">
 
 我們的VM是Ubuntu20.04，而在Ubuntu20.04上面設定static IP可以透過修改`/etc/netplan/50-cloud-init.yaml`來達成，而修改的內容如下所示，其中`<VMIP>`要填入前面我們透過`multipass ls`得到VM IP，特別注意的是，Default Switch的netmask是255.255.240.0，因此在在VM IP後面要加上"/20"。在`<default_SWITCH_IP>`則是填入上一節得到的Default Wwitch IP。
 ```yaml

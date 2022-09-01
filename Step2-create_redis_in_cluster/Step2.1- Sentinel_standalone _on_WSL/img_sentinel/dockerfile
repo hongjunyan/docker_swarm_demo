@@ -1,0 +1,23 @@
+FROM redis
+
+EXPOSE 26379
+
+COPY sentinel.conf /etc/redis/sentinel.conf
+
+RUN chown redis:redis /etc/redis/sentinel.conf
+RUN chown redis:redis /etc/redis/
+
+ENV SENTINEL_PORT=26379 \
+    MASTER_NAME=mymaster \
+    MASTER_HOST=127.0.0.1 \
+    MASTER_PORT=6379 \
+    QUORUM=2 \
+    DOWN_AFTER_MS=2000\
+    FAILOVER_TIMEOUT=60000 \
+    SENTINEL_PARALLEL_SYNC=60000
+
+COPY entrypoint.sh /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["entrypoint.sh"]

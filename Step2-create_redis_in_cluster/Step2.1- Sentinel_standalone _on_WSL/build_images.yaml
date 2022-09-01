@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis_redis
+    build:
+      context: ./img_redis
+      dockerfile: dockerfile_redis
+
+  redis-sentinel: 
+    image: redis_sentinel  # build in local first
+    build:
+      context: ./img_sentinel
+      dockerfile: dockerfile
+  
+  fastapi-app:
+    image: backend
+    build:
+      context: ./img_app
+      dockerfile: dockerfile

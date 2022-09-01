@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+  
+  promethues:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  
+  redis-exporter:
+    image: oliver006/redis_exporter
+    ports:
+      - "9121:9121"
+    links:  # as i know, it just use to network alias, 
+      - "redis:redis_master"  # redis is reacherable from redis-exporter at hostnames `redis` and `redis_master`
+    environment:
+      - REDIS_ADDR=redis_master
